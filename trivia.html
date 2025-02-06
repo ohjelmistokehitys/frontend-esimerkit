@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Front End Programming / React</title>
+</head>
+
+<body>
+    <!-- We will put our React component inside this div. -->
+    <div id="root"></div>
+
+    <!-- Load React & Babel -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+    <!-- React component code -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const triviaApiUrl = "https://opentdb.com/api.php?amount=10&type=multiple";
+
+        const parser = new DOMParser();
+        function cleanUpHtml(text) {
+            const doc = parser.parseFromString(text, "text/html");
+            return doc.body.firstChild.textContent;
+        }
+
+        // see https://opentdb.com/api.php?amount=10&type=multiple for trivia object types
+
+        function TriviaComponent({ trivia, number }) {
+            const options = [trivia.correct_answer, ...trivia.incorrect_answers];
+
+            return <div>
+                <h2>{number}. {cleanUpHtml(trivia.question)}</h2>
+                {options.map(option => <button key={option} onClick={() => alert(option === trivia.correct_answer ? "correct" : "incorrect")}>{cleanUpHtml(option)}</button>)}
+            </div>
+
+        };
+
+        function TriviaList({ trivias }) {
+            return trivias.map((trivia, i) => <TriviaComponent key={trivia.question} number={i + 1} trivia={trivia} />)
+        }
+
+        function TriviaApp() {
+            const [trivias, setTrivias] = useState([]);
+            const [errorMsg, setErrorMsg] = useState(null);
+
+            const getNewTrivias = () => {
+                setTrivias([]);
+                fetch(triviaApiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Fetch failed due to error ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(json => setTrivias(json.results))
+                    .catch(e => {
+                        console.error(e);
+                        setErrorMsg(`Error: ${e && e.toString()}`);
+                    });
+            };
+
+            useEffect(() => {
+                getNewTrivias();
+            }, []);
+
+            if (errorMsg) {
+                return <strong>{errorMsg}</strong>;
+            }
+
+            if (trivias.length === 0) {
+                return <progress />;
+            }
+
+            return <main>
+                <button onClick={() => getNewTrivias()}>🔽</button>
+                <TriviaList trivias={trivias} />
+            </main>;
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+
+        root.render(<div>
+            <TriviaApp />
+        </div>);
+    </script>
+</body>
+
+</html>
