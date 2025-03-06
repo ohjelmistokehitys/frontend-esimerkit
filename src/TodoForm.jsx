@@ -9,7 +9,7 @@ export default function TodoForm({ addTask }) {
     function submit(event) {
         event.preventDefault();
 
-        addTask(task);
+        addTask({ ...task, id: new Date().getTime() });
         setTask(EMPTY_TASK);
     }
 
@@ -17,11 +17,17 @@ export default function TodoForm({ addTask }) {
         <form onSubmit={submit}>
             <label>
                 Description
-                <input placeholder="Add description..." value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} required />
+                <input placeholder="Add description..."
+                    value={task.description}
+                    onChange={e => setTask({ ...task, description: e.target.value })}
+                    required />
             </label>
             <label>
                 Deadline
-                <input type="date" value={task.deadline} onChange={e => setTask({ ...task, deadline: e.target.value })} required />
+                <input type="date"
+                    value={task.deadline}
+                    onChange={e => setTask({ ...task, deadline: e.target.value })}
+                    required />
             </label>
             <button>Save</button>
         </form>
