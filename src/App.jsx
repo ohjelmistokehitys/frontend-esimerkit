@@ -1,9 +1,21 @@
+import { Container, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import TodoList from './TodoList';
+
+const customTheme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
 
 function App() {
 
   return <>
-    <TodoList />
+    <ThemeProvider theme={customTheme}>
+      <Container maxWidth="xl">
+        <CssBaseline />
+        <TodoList />
+      </Container>
+    </ThemeProvider>
   </>
 }
 

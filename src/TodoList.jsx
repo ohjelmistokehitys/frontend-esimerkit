@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TodoForm from "./TodoForm";
-import TodoTable from "./TodoTable";
+import { Container } from "@mui/material";
 import TodoGrid from "./TodoGrid";
 
 function TodoList() {
@@ -18,14 +18,12 @@ function TodoList() {
         setTasks(tasks.filter(task => task.id !== id));
     }
 
-    // TODO: move table to separate component
     return (
-        <section>
+        <Container fixed>
             <TodoForm addTask={addTask} />
-
-            <TodoTable tasks={tasks} removeById={removeById} />
+            {/*<TodoTable tasks={tasks} removeById={removeById} />*/}
             <TodoGrid tasks={tasks} />
-        </section>
+        </Container>
     );
 }
 

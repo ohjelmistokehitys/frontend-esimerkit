@@ -1,17 +1,20 @@
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import TodoRow from './TodoRow';
 
 export default function TodoTable({ tasks, removeById }) {
-    return <table>
-        <thead>
-            <tr>
-                <th>Done</th>
-                <th>Task</th>
-                <th>Deadline</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody aria-live="polite">
-            {tasks.map(todo => <TodoRow key={todo.id} task={todo} remove={() => removeById(todo.id)} />)}
-        </tbody>
-    </table>
+    return <TableContainer>
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell>Done</TableCell>
+                    <TableCell>Task</TableCell>
+                    <TableCell>Deadline</TableCell>
+                    <TableCell>Delete</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {tasks.map(todo => <TodoRow key={todo.id} task={todo} remove={() => removeById(todo.id)} />)}
+            </TableBody>
+        </Table>
+    </TableContainer>
 }

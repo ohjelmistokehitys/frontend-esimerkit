@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { Button, Checkbox, TableCell, TableRow } from "@mui/material";
+import { useState } from "react";
 
 
 export default function TodoRow({ task, remove }) {
@@ -7,18 +8,18 @@ export default function TodoRow({ task, remove }) {
     const deadline = new Date(task.deadline);
     const dateStr = `${deadline.getDate()}.${deadline.getMonth() + 1}.${deadline.getFullYear()}`;
 
-    return <tr>
-        <td>
-            <input type="checkbox" value={done} onClick={() => setDone(!done)} />
-        </td>
-        <td>
+    return <TableRow>
+        <TableCell>
+            <Checkbox value={done} onClick={() => setDone(!done)} slotProps={{ input: { "aria-label": `Delete ${task.description}` } }} />
+        </TableCell>
+        <TableCell>
             {task.description}
-        </td>
-        <td>
+        </TableCell>
+        <TableCell>
             {dateStr}
-        </td>
-        <td>
-            <button onClick={remove}>🗑️</button>
-        </td>
-    </tr>
+        </TableCell>
+        <TableCell>
+            <Button onClick={remove} variant="outlined">🗑️</Button>
+        </TableCell>
+    </TableRow>
 }

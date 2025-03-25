@@ -1,3 +1,4 @@
+import { Button, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 
 const EMPTY_TASK = Object.freeze({ description: "", deadline: "" });
@@ -15,21 +16,23 @@ export default function TodoForm({ addTask }) {
 
     return (
         <form onSubmit={submit}>
-            <label>
-                Description
-                <input placeholder="Add description..."
+            <Stack direction="row" sx={{ gap: { xs: 1, sm: 2 } }}>
+                <TextField
+                    label="Description"
+                    variant="outlined"
+                    size="small"
                     value={task.description}
                     onChange={e => setTask({ ...task, description: e.target.value })}
-                    required />
-            </label>
-            <label>
-                Deadline
-                <input type="date"
+                />
+                <TextField label="Deadline"
+                    variant="outlined"
+                    size="small"
                     value={task.deadline}
-                    onChange={e => setTask({ ...task, deadline: e.target.value })}
-                    required />
-            </label>
-            <button>Save</button>
+                    onChange={e => setTask({ ...task, deadline: e.target.value })} />
+                <Button variant="outlined">
+                    Save
+                </Button>
+            </Stack>
         </form>
     );
 }
