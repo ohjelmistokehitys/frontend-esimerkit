@@ -1,12 +1,15 @@
 import { Button, Checkbox, TableCell, TableRow } from "@mui/material";
+import dayjs from "dayjs";
 import { useState } from "react";
-
+import "dayjs/locale/fi";
 
 export default function TodoRow({ task, remove }) {
     const [done, setDone] = useState(false);
 
-    const deadline = new Date(task.deadline);
-    const dateStr = `${deadline.getDate()}.${deadline.getMonth() + 1}.${deadline.getFullYear()}`;
+    const deadline = dayjs(task.deadline);
+
+    // See https://day.js.org/docs/en/display/format
+    const dateStr = deadline.locale("fi").format("l");
 
     return <TableRow>
         <TableCell>

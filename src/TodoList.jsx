@@ -1,14 +1,16 @@
 import { useState } from "react";
 import TodoForm from "./TodoForm";
-import { Container } from "@mui/material";
-import TodoGrid from "./TodoGrid";
+import TodoTable from "./TodoTable";
+import dayjs from "dayjs";
+
+const testData = [
+    { description: "hello world", deadline: dayjs().add(1, 'days').format("YYYY-MM-DD"), id: 1 },
+    { description: "terve maailma", deadline: dayjs().add(7, 'days').format("YYYY-MM-DD"), id: 2 }
+];
 
 function TodoList() {
 
-    const [tasks, setTasks] = useState([
-        { description: "hello world", deadline: "2025-03-06", id: 1 },
-        { description: "terve maailma", deadline: "2025-03-06", id: 2 }
-    ]);
+    const [tasks, setTasks] = useState(testData);
 
     function addTask(newTask) {
         setTasks([...tasks, newTask]);
@@ -18,13 +20,10 @@ function TodoList() {
         setTasks(tasks.filter(task => task.id !== id));
     }
 
-    return (
-        <Container fixed>
-            <TodoForm addTask={addTask} />
-            {/*<TodoTable tasks={tasks} removeById={removeById} />*/}
-            <TodoGrid tasks={tasks} />
-        </Container>
-    );
+    return <>
+        <TodoForm addTask={addTask} />
+        <TodoTable tasks={tasks} removeById={removeById} />
+    </>
 }
 
 export default TodoList;
