@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 export default function TodoTable({ tasks, removeById }) {
 
+    // Tasks are sorted by deadline. They are memoized to avoid having to sort them on every render.
     const sorted = useMemo(() => tasks.sort((a, b) => a.deadline.localeCompare(b.deadline)), [tasks]);
 
     return <TableContainer>

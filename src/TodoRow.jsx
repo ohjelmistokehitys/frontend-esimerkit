@@ -6,14 +6,12 @@ import "dayjs/locale/fi";
 export default function TodoRow({ task, remove }) {
     const [done, setDone] = useState(false);
 
-    const deadline = dayjs(task.deadline);
-
     // See https://day.js.org/docs/en/display/format
-    const dateStr = deadline.locale("fi").format("l");
+    const dateStr = dayjs(task.deadline).locale("fi").format("l");
 
     return <TableRow>
         <TableCell>
-            <Checkbox value={done} onClick={() => setDone(!done)} slotProps={{ input: { "aria-label": `Delete ${task.description}` } }} />
+            <Checkbox value={done} onClick={() => setDone(!done)} aria-label={`Mark ${task.description} done`} />
         </TableCell>
         <TableCell>
             {task.description}
@@ -22,7 +20,7 @@ export default function TodoRow({ task, remove }) {
             {dateStr}
         </TableCell>
         <TableCell>
-            <Button onClick={remove} variant="outlined">🗑️</Button>
+            <Button onClick={remove} variant="outlined" aria-label={`Remove ${task.description}`}>🗑️</Button>
         </TableCell>
     </TableRow>
 }

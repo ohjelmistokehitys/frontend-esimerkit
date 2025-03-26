@@ -16,7 +16,10 @@ export default function TodoForm({ addTask }) {
     function submit(event) {
         event.preventDefault();
 
-        addTask({ ...task, id: new Date().getTime() });
+        addTask({
+            ...task,
+            id: Math.random().toString(36).substring(2)
+        });
         setTask(emptyTask());
     }
 
