@@ -1,19 +1,16 @@
 import { useState } from "react";
 import TodoForm from "./TodoForm";
 import TodoTable from "./TodoTable";
-import dayjs from "dayjs";
+import { saveTasks, loadTasks } from "./storage";
 
-const testData = [
-    { description: "hello world", deadline: dayjs().add(1, 'days').format("YYYY-MM-DD"), id: 1 },
-    { description: "terve maailma", deadline: dayjs().add(7, 'days').format("YYYY-MM-DD"), id: 2 }
-];
 
 function TodoList() {
 
-    const [tasks, setTasks] = useState(testData);
+    const [tasks, setTasks] = useState(() => loadTasks());
 
     function addTask(newTask) {
         setTasks([...tasks, newTask]);
+        saveTasks([...tasks, newTask]);
     }
 
     function removeById(id) {

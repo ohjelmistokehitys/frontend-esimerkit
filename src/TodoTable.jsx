@@ -1,7 +1,11 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import TodoRow from './TodoRow';
+import { useMemo } from 'react';
 
 export default function TodoTable({ tasks, removeById }) {
+
+    const sorted = useMemo(() => tasks.sort((a, b) => a.deadline.localeCompare(b.deadline)), [tasks]);
+
     return <TableContainer>
         <Table>
             <TableHead>
@@ -13,7 +17,7 @@ export default function TodoTable({ tasks, removeById }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {tasks.map(todo => <TodoRow key={todo.id} task={todo} remove={() => removeById(todo.id)} />)}
+                {sorted.map(todo => <TodoRow key={todo.id} task={todo} remove={() => removeById(todo.id)} />)}
             </TableBody>
         </Table>
     </TableContainer>
